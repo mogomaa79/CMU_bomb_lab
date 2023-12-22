@@ -85,18 +85,18 @@ The input pair should correspond to a valid range for this operation. Choosing v
 The input string that, when processed through these steps, results in the word "flyers" is "ionefj".
 
 
-# Phase 6
+## Phase 6
 
-## Initial Analysis
+### Initial Analysis
 
 The assembly code for Phase 6 involves several loops and checks. I first analyzed the initial lines of the assembly code, which called `read_six_numbers` and checked the input for certain conditions using loops. Specifically, it verified that the six numbers were in the range of 1 to 6 (inclusive) and ensured that no number was repeated.
 
 This gave me a hint that the number of permutations for this problem is only 6! (720), so I first wrote a brute-forcing script using Python.
 
-## Approach 1: Brute-Force with Python
+### Approach 1: Brute-Force with Python
 I implemented a Python script 'brute.py' utilizing the `subprocess` and `itertools` libraries to execute the bomb binary with all possible permutations. The script generates a file with initial lines and each permutation of the answer to phase 6, then executed the bomb, checking for the correct answer. The script stopped at the answer: `4 3 2 1 6 5`.
 
-## Approach 2: Reverse-engineering the answer using GDB & Ada
+### Approach 2: Reverse-engineering the answer using GDB & Ada
 Now we'd go through all the rest of the code. It first enters a loop to calculate `(7 - value)` for all the values. Then another loop shows the input values being used to access some nodes in some order. Ihese nodes are Linked List nodes carrying value and next pointer taking a total of 16 bytes after padding. 
 
 The values in these nodes found using ADA/GDB Debugger are:
