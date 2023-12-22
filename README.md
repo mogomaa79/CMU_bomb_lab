@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The CMU Bomb Lab is a reverse engineering challenge where participants must defuse binary "bombs" by understanding and manipulating assembly code. See "https://www.cs.cmu.edu/afs/cs/academic/class/15213-s20/www/recitations/recitation04-bomblab.pdf" for more information and helpful tips. This writeup outlines the process and tools used to successfully navigate the challenges.
+The CMU Bomb Lab is a reverse engineering challenge where participants defuse binary "bombs" by understanding and manipulating assembly code. See "https://www.cs.cmu.edu/afs/cs/academic/class/15213-s20/www/recitations/recitation04-bomblab.pdf" for more information and helpful tips. This writeup outlines the process and tools I used to successfully navigate the challenges.
 
 ## Tools
 
@@ -13,7 +13,7 @@ The CMU Bomb Lab is a reverse engineering challenge where participants must defu
 
 ## Extracting Assembly Code
 
-To begin analysis, use objdump to extract assembly code:
+To begin analysis, I used objdump to extract assembly code:
 
 ```bash
 objdump -d bomb_binary > dump.asm
@@ -74,12 +74,13 @@ The input pair should correspond to a valid range for this operation. Choosing v
 ## Phase 5
 
 1. **String Length Check:**
-   - The code calls the `string_length` function to determine the length of the input string. If the length is not 6, the bomb explodes.
+   - The code calls the `string_length` function to determine the length of the input string. Then it uses the instruction `cmpl	$6, %eax`, meaning if the length is not 6, the bomb explodes.
 
 2. **Character Transformation Loop:**
    - The function then enters a loop, iterating over each character of the input string.
-   - For each character, it performs a bitwise AND operation with 1111 and accesses an array hidden in memory with the resulting index.
-   - The obtained values are stored in a new string.
+   - For each character, it performs a bitwise AND operation with 1111 to get the last byte of the hexadecimal representation of the character `andl	$15, %edx`.
+   For example, lowercase 'a' is encoded in ASCII as 97 or 0x61. So the last byte is 0001. Transforming that into an index 1, and so on for any character input.
+   - It then accesses an character array of shuffled letters hidden in memory with the resulting index of each character and stores the returned character in a new string.
 
 3. **Comparison with "flyers":**
    - After the loop, the new string is compared with the constant string "flyers."
@@ -87,12 +88,12 @@ The input pair should correspond to a valid range for this operation. Choosing v
 
 4. **Reverse Engineering the Hidden Array:**
    - To successfully defuse Phase 5, we need to reverse-engineer the hidden array's indexes.
-   - The correct order of indexes is 3, 14, 13, 4, 5, 6, corresponding to the ASCII values 'ionefj'.
+   - After analyzing the hidden array, the correct order of indexes is 3, 14, 13, 4, 5, 6. This can be reached via many characters, for example 'ionefj'.
 
 The input string that, when processed through these steps, results in the word "flyers" is "ionefj".
 
 
-# Solving CMU Bomb Lab - Phase 6
+# Phase 6
 
 ## Initial Analysis
 
