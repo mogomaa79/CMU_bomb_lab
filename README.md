@@ -78,7 +78,7 @@ The input pair should correspond to a valid range for this operation. Choosing v
 
 2. **Character Transformation Loop:**
    - The function then enters a loop, iterating over each character of the input string.
-   - For each character, it performs a bitwise AND operation with 1111 to get the last byte of the hexadecimal representation of the character `andl	$15, %edx`.
+   - For each character, it performs a bitwise AND operation with 1111 to get the last byte of the hexadecimal representation of the character `andl $15, %edx`.
    For example, lowercase 'a' is encoded in ASCII as 97 or 0x61. So the last byte is 0001. Transforming that into an index 1, and so on for any character input.
    - It then accesses an character array of shuffled letters hidden in memory with the resulting index of each character and stores the returned character in a new string.
 
