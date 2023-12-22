@@ -56,14 +56,6 @@ In Phase 3, the assembly code begins by allocating memory for stack and local va
 
 ## Phase 4
 
-The assembly code for Phase 4 comprises two functions: `func4` and `phase_4`. 
-
-### Function `func4`:
-
-The `func4` function performs a binary search operation. It takes three integer parameters (`%edx`, `%esi`, and `%edi`) and returns an integer result in `%eax`.
-
-### Function `phase_4`:
-
 `phase_4` begins by taking two integer inputs using `sscanf` with the format "%d %d". If the number of successful inputs is not equal to 2 or if the second input is greater than 14, the bomb explodes.
 
 The `phase_4` code calls the recursive function `func4`. With parameters `%edx = 14`, `%esi = 0`, and `%edi` taken from the second input, the function performs a binary search operation. The result of this operation is stored in `%eax`. The subsequent comparisons with `%eax` determine whether the bomb should explode or not.
